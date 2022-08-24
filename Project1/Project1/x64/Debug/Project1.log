@@ -1,1 +1,6 @@
-﻿
+﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(516,5): warning MSB8003: The WindowsSDKDir property is not defined. Some build tools may not be found.
+  card.c
+C:\Users\user\Documents\GitHub\udacity_embedded_systems\Project1\Project1\card.c(1,10): fatal  error C1083: Cannot open include file: 'stdio.h': No such file or directory
+  terminal.c
+C:\Users\user\Documents\GitHub\udacity_embedded_systems\Project1\Project1\terminal.c(10,10): fatal  error C1083: Cannot open include file: 'stdio.h': No such file or directory
+  Generating Code...

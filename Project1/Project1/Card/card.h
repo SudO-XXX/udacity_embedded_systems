@@ -1,6 +1,16 @@
-#ifndef "card.h"
-#define "card.h"
+/*
+ * card.h
+ *
+ *  Created on: Aug 22, 2022
+ *      Author: HP
+ */
 
+#ifndef CARD_H_
+#define CARD_H_
+
+typedef unsigned char uint8_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
 
 typedef struct ST_cardData_t
 {
@@ -18,4 +28,5 @@ EN_cardError_t getCardHolderName(ST_cardData_t* cardData);
 EN_cardError_t getCardExpiryDate(ST_cardData_t* cardData);
 EN_cardError_t getCardPAN(ST_cardData_t* cardData);
 
-#endif // !card.h
+
+#endif /* CARD_H_ */
