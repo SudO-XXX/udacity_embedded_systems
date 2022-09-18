@@ -16,13 +16,14 @@
 //takes a pointer to an array of pointers to 100 locaiton in heap.
 void appStart ()
 {
-    ST_terminalData_t * terminalData = (ST_terminalData_t*) malloc(sizeof(ST_terminalData_t));
-    ST_cardData_t * card = (ST_cardData_t*) malloc(sizeof(ST_cardData_t));
-    ST_transaction_t * transaction = (ST_transaction_t*) malloc(sizeof(ST_transaction_t));
 
     DataBaseGenerator();
     readAccountDB();
 	while(1){
+    ST_terminalData_t * terminalData = (ST_terminalData_t*) malloc(sizeof(ST_terminalData_t));
+    ST_cardData_t * card = (ST_cardData_t*) malloc(sizeof(ST_cardData_t));
+    ST_transaction_t * transaction = (ST_transaction_t*) malloc(sizeof(ST_transaction_t));
+
     while(getTransactionDate(terminalData)!= OK_terError){
         printf("system date is invalid!\n");
     }
@@ -41,7 +42,7 @@ void appStart ()
 
     if(isCardExpired(card,terminalData)==EXP_CARD){
         printf("card expired!!\n");
-        return;
+        continue;;
     }
 
 /*****************************/
@@ -51,7 +52,7 @@ void appStart ()
     printf("%s\n",card->primaryAccountNumber);
     if(isValidCardPAN(card)){
         printf("invalid card number!\n");
-        return;
+        continue;
     }
 
 /*****************************/
@@ -61,7 +62,7 @@ void appStart ()
     getTransactionAmount(terminalData);
     if(isBelowMaxAmount(terminalData) ==  EXCEED_MAX_AMOUNT){
         printf("exceeded max amount!!\n");
-        return;
+        continue;
     }
 
     transaction->cardHolderData = card;
@@ -70,7 +71,18 @@ void appStart ()
 
 
     recieveTransactionData(transaction);
+
+    uint8_t state[30];
+	switch(transaction->trnsState){
+		case Approved: 					 strcpy(state,"Approved");break;
+		case Declined_Stolen_CARD:		 strcpy(state,"Declined_Stolen_CARD");break;
+		case Declined_Insuffecient_FUND: strcpy(state,"Declined_Insuffecient_FUND");break;
+		case Internal_Server_ERROR:		 strcpy(state,"Internal_Server_ERROR");break;
+	}
 	
+	printf("%d,%s,%s\n\n",transaction->trnsactionSequenceNumber,transaction->cardHolderData->primaryAccountNumber,state);
+
+
 	getchar();
 }
 

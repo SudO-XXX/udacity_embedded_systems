@@ -53,8 +53,6 @@ EN_terError_t isCardExpired(ST_cardData_t* cardDate, ST_terminalData_t* terminal
 	int ter_year = (terminalData->transactionDate[6] - '0') * 1000 + (terminalData->transactionDate[7] - '0') * 100 + (terminalData->transactionDate[8] - '0') * 10 + +terminalData->transactionDate[9] - '0';
 	if ((ter_year == card_year && ter_month > card_month) || ter_year > card_year)
 		return EXP_CARD;
-
-
 	return OK_terError;
 }
 
@@ -132,7 +130,6 @@ EN_terError_t setMaxAmount(ST_terminalData_t* terminalData)
 		terminalData->maxTransAmount = maxAmount;
 		return OK_terError;
 	}
-
 	return INVALID_MAX_AMOUNT;
 
 }

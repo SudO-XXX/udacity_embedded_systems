@@ -15,7 +15,7 @@ void DataBaseGenerator(void)
 	FILE *filepointer;
 	filepointer = fopen("DataBase.txt", "w");
 	char pan[21];
-	for (int i = 0; i < 40; i++)
+	for (int i = 0; i < 255; i++)
 	{
 		for (int u = 0; u < 20; u++)
 			pan[u] = rand() % 10 + '0';
@@ -90,17 +90,7 @@ EN_serError_t saveTransaction(ST_transaction_t *TransactionData)
 	Transaction_DB[TransactionSequenceNumber] = TransactionData;
 	if(Transaction_DB[TransactionSequenceNumber]==NULL)
 		return Saving_Failed;
-	uint8_t state[30];
-	switch(TransactionData->trnsState){
-		case Approved: 					 strcpy(state,"Approved");break;
-		case Declined_Stolen_CARD:		 strcpy(state,"Declined_Stolen_CARD");break;
-		case Declined_Insuffecient_FUND: strcpy(state,"Declined_Insuffecient_FUND");break;
-		case Internal_Server_ERROR:		 strcpy(state,"Internal_Server_ERROR");break;
-	}
-	FILE* FilePointer = fopen("TransactionDB.txt","w");
-	fprintf(FilePointer,"%d,%s,%s\n",TransactionData->trnsactionSequenceNumber,TransactionData->cardHolderData->primaryAccountNumber,state);
-	fclose(FilePointer);
-	printf("done\n");
+
 	TransactionSequenceNumber++;
 	return OK_serError;
 	
