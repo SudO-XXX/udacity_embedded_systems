@@ -7,7 +7,7 @@
 
 #ifndef TERMINAL_H_
 #define TERMINAL_H_
-#include "card.h"
+#include "../Card/card.h"
 
 
  //EN_terminalError_t
@@ -26,7 +26,7 @@ typedef struct ST_terminalData_t
 {
 	float transAmount;
 	float maxTransAmount;
-	uint8_t transactionDate[11];
+	uint8_t transactionDate[5];
 }ST_terminalData_t;
 
 

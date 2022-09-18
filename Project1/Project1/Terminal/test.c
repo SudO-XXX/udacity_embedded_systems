@@ -1,28 +1,13 @@
-/*
- * app.c
- *
- *  Created on: Aug 23, 2022
- *      Author: HP
- */
-
+#include "terminal.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
-#include <time.h>
-#include "app.h"
+#include "../Card/card.h"
 
-
-//app start function 
-//takes a pointer to an array of pointers to 100 locaiton in heap.
-void appStart ()
-{
+void main(void){
     ST_terminalData_t * terminalData = (ST_terminalData_t*) malloc(sizeof(ST_terminalData_t));
     ST_cardData_t * card = (ST_cardData_t*) malloc(sizeof(ST_cardData_t));
-    ST_transaction_t * transaction = (ST_transaction_t*) malloc(sizeof(ST_transaction_t));
 
-    DataBaseGenerator();
-    readAccountDB();
-	while(1){
     while(getTransactionDate(terminalData)!= OK_terError){
         printf("system date is invalid!\n");
     }
@@ -64,25 +49,5 @@ void appStart ()
         return;
     }
 
-    transaction->cardHolderData = card;
-    transaction->terminalData = terminalData;
-
-
-
-    recieveTransactionData(transaction);
-	
-	getchar();
-}
-
 
 }
-
-
-
-
-
-
-
-
-
-

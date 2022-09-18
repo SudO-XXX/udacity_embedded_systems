@@ -7,8 +7,10 @@
 
 #ifndef SERVER_H_
 #define SERVER_H_
-#include "Terminal.h"
-#include "Card.h"
+#include "../Terminal/terminal.h"
+#include "../Card/card.h"
+
+
 typedef enum EN_serError_t
 {
 	OK_serError,
@@ -20,7 +22,7 @@ typedef enum EN_serError_t
 typedef struct ST_Accounts_DB_t
 {
 	float Balance;
-	uint8_t primaryAccountNumber[20];
+	uint8_t primaryAccountNumber[21];
 }ST_Accounts_DB_t;
 typedef enum EN_trnsState_t
 {
@@ -32,17 +34,20 @@ typedef enum EN_trnsState_t
 
 typedef struct ST_transaction_t
 {
-	ST_cardData_t cardHolderData;
-	ST_terminalData_t terminalData;
+	ST_cardData_t* cardHolderData;
+	ST_terminalData_t* terminalData;
 	EN_trnsState_t trnsState;
 	uint32_t trnsactionSequenceNumber;
 }ST_transaction_t;
 
+
+void DataBaseGenerator(void);
 void readAccountDB(void);
 void updateAccountDB(void);
-EN_trnsState_t recieveTransactionData(ST_transaction_t*);
+
 EN_serError_t isValidAccount(ST_cardData_t*);
 EN_serError_t isAmountAvailable(ST_terminalData_t*);
 EN_serError_t saveTransaction(ST_transaction_t*);
+EN_trnsState_t recieveTransactionData(ST_transaction_t*);
 
 #endif /* SERVER_H_ */

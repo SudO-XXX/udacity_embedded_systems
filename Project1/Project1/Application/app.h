@@ -8,10 +8,10 @@
 #ifndef APP_H_
 #define APP_H_
 
-#include "Card.h"
-#include "Terminal.h"
-#include "Server.h"
+#include "../Card/card.h"
+#include "../Terminal/terminal.h"
+#include "../Server/server.h"
 
-void appStart (ST_Accounts_DB_t**);
+void appStart ();
 
 #endif /* APP_H_ */
