@@ -49,5 +49,6 @@ EN_serError_t isValidAccount(ST_cardData_t*);
 EN_serError_t isAmountAvailable(ST_terminalData_t*);
 EN_serError_t saveTransaction(ST_transaction_t*);
 EN_trnsState_t recieveTransactionData(ST_transaction_t*);
+EN_trnsState_t isDeclinedAccount(ST_cardData_t*);
 
 #endif /* SERVER_H_ */

@@ -6,7 +6,8 @@
 
 #define DB_SIZE 255
 ST_Accounts_DB_t *Accounts_DB[DB_SIZE] ;
-ST_transaction_t *Transaction_DB [255] = {};
+ST_Accounts_DB_t *Declined_Accouns[DB_SIZE];
+ST_transaction_t *Transaction_DB [DB_SIZE];
 uint8_t AccountIndex = 0;
 uint8_t TransactionSequenceNumber = 0;
 void DataBaseGenerator(void)
@@ -33,6 +34,12 @@ void readAccountDB(void)
 		fscanf(filepointer, "%f,%s", &(Accounts_DB[i]->Balance), Accounts_DB[i]->primaryAccountNumber);
 	}
 
+	fclose(filepointer);
+	filepointer = fopen("Declined_accounts.txt","r");
+	for(int i = 0;i<DB_SIZE||filepointer==EOF;i++){
+		Declined_Accouns[i] = (ST_Accounts_DB_t*) malloc(sizeof(ST_Accounts_DB_t));
+		fscanf(filepointer, "%s", Declined_Accouns[i]->primaryAccountNumber);
+	}
 	fclose(filepointer);
 }
 /*****************************/
@@ -95,16 +102,27 @@ EN_serError_t saveTransaction(ST_transaction_t *TransactionData)
 	return OK_serError;
 	
 }
+
+EN_trnsState_t isDeclinedAccount(ST_cardData_t* cardData){
+	for(int i = 0;i<DB_SIZE;i++){
+		if(!strcmp(Declined_Accouns[i]->primaryAccountNumber,cardData->primaryAccountNumber))
+			return Declined_Stolen_CARD;
+	}
+	return OK_serError;
+}
 /*****************************/
 EN_trnsState_t recieveTransactionData(ST_transaction_t *TransactionData)
 {
 
 	if (isValidAccount(TransactionData->cardHolderData) == Account_NOT_Found)
 	{
+		TransactionData->trnsState = Internal_Server_ERROR;
+		return Internal_Server_ERROR;
+	}
+	else if(isDeclinedAccount(TransactionData->cardHolderData)==Declined_Stolen_CARD){
 		TransactionData->trnsState = Declined_Stolen_CARD;
 		return Declined_Stolen_CARD;
 	}
-
 	else if (isAmountAvailable(TransactionData->terminalData) == Low_Balance)
 	{
 		TransactionData->trnsState = Declined_Insuffecient_FUND;

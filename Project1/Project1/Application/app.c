@@ -13,10 +13,9 @@
 
 
 //app start function 
-//takes a pointer to an array of pointers to 100 locaiton in heap.
+
 void appStart ()
 {
-
     DataBaseGenerator();
     readAccountDB();
 	while(1){
